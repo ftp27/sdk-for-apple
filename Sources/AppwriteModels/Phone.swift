@@ -1,3 +1,5 @@
+import Foundation
+import JSONCodable
 
 /// Phone
 public class Phone {
@@ -11,6 +13,7 @@ public class Phone {
     /// Country name.
     public let countryName: String
 
+
     init(
         code: String,
         countryCode: String,
@@ -21,14 +24,6 @@ public class Phone {
         self.countryName = countryName
     }
 
-    public static func from(map: [String: Any]) -> Phone {
-        return Phone(
-            code: map["code"] as! String,
-            countryCode: map["countryCode"] as! String,
-            countryName: map["countryName"] as! String
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "code": code as Any,
@@ -36,5 +31,12 @@ public class Phone {
             "countryName": countryName as Any
         ]
     }
-                
+
+    public static func from(map: [String: Any] ) -> Phone {
+        return Phone(
+            code: map["code"] as! String,
+            countryCode: map["countryCode"] as! String,
+            countryName: map["countryName"] as! String
+        )
+    }
 }

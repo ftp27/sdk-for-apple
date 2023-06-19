@@ -1,6 +1,8 @@
+import Foundation
+import JSONCodable
 
-/// Account
-public class Account {
+/// User
+public class User<T : Codable> {
 
     /// User ID.
     public let id: String
@@ -13,6 +15,15 @@ public class Account {
 
     /// User name.
     public let name: String
+
+    /// Hashed user password.
+    public let password: String??
+
+    /// Password hashing algorithm.
+    public let hash: String??
+
+    /// Password hashing algorithm configuration.
+    public let hashOptions: Any??
 
     /// User registration date in ISO 8601 format.
     public let registration: String
@@ -36,13 +47,17 @@ public class Account {
     public let phoneVerification: Bool
 
     /// User preferences as a key-value object
-    public let prefs: Preferences
+    public let prefs: Preferences<T>
+
 
     init(
         id: String,
         createdAt: String,
         updatedAt: String,
         name: String,
+        password: String??,
+        hash: String??,
+        hashOptions: Any??,
         registration: String,
         status: Bool,
         passwordUpdate: String,
@@ -50,12 +65,15 @@ public class Account {
         phone: String,
         emailVerification: Bool,
         phoneVerification: Bool,
-        prefs: Preferences
+        prefs: Preferences<T>
     ) {
         self.id = id
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.name = name
+        self.password = password
+        self.hash = hash
+        self.hashOptions = hashOptions
         self.registration = registration
         self.status = status
         self.passwordUpdate = passwordUpdate
@@ -66,29 +84,15 @@ public class Account {
         self.prefs = prefs
     }
 
-    public static func from(map: [String: Any]) -> Account {
-        return Account(
-            id: map["$id"] as! String,
-            createdAt: map["$createdAt"] as! String,
-            updatedAt: map["$updatedAt"] as! String,
-            name: map["name"] as! String,
-            registration: map["registration"] as! String,
-            status: map["status"] as! Bool,
-            passwordUpdate: map["passwordUpdate"] as! String,
-            email: map["email"] as! String,
-            phone: map["phone"] as! String,
-            emailVerification: map["emailVerification"] as! Bool,
-            phoneVerification: map["phoneVerification"] as! Bool,
-            prefs: Preferences.from(map: map["prefs"] as! [String: Any])
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "$id": id as Any,
             "$createdAt": createdAt as Any,
             "$updatedAt": updatedAt as Any,
             "name": name as Any,
+            "password": password as Any,
+            "hash": hash as Any,
+            "hashOptions": hashOptions as Any,
             "registration": registration as Any,
             "status": status as Any,
             "passwordUpdate": passwordUpdate as Any,
@@ -99,5 +103,24 @@ public class Account {
             "prefs": prefs.toMap() as Any
         ]
     }
-                                                                                                                                                                            
+
+    public static func from(map: [String: Any] ) -> User {
+        return User(
+            id: map["$id"] as! String,
+            createdAt: map["$createdAt"] as! String,
+            updatedAt: map["$updatedAt"] as! String,
+            name: map["name"] as! String,
+            password: map["password"] as? String?,
+            hash: map["hash"] as? String?,
+            hashOptions: map["hashOptions"] as? Any?,
+            registration: map["registration"] as! String,
+            status: map["status"] as! Bool,
+            passwordUpdate: map["passwordUpdate"] as! String,
+            email: map["email"] as! String,
+            phone: map["phone"] as! String,
+            emailVerification: map["emailVerification"] as! Bool,
+            phoneVerification: map["phoneVerification"] as! Bool,
+            prefs: Preferences.from(map: map["prefs"] as! [String: Any])
+        )
+    }
 }

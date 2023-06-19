@@ -1,3 +1,5 @@
+import Foundation
+import JSONCodable
 
 /// Languages List
 public class LanguageList {
@@ -8,6 +10,7 @@ public class LanguageList {
     /// List of languages.
     public let languages: [Language]
 
+
     init(
         total: Int,
         languages: [Language]
@@ -16,18 +19,17 @@ public class LanguageList {
         self.languages = languages
     }
 
-    public static func from(map: [String: Any]) -> LanguageList {
-        return LanguageList(
-            total: map["total"] as! Int,
-            languages: (map["languages"] as! [[String: Any]]).map { Language.from(map: $0) }
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "total": total as Any,
             "languages": languages.map { $0.toMap() } as Any
         ]
     }
-                                                                                                                                    
+
+    public static func from(map: [String: Any] ) -> LanguageList {
+        return LanguageList(
+            total: map["total"] as! Int,
+            languages: (map["languages"] as! [[String: Any]]).map { Language.from(map: $0) }
+        )
+    }
 }

@@ -1,3 +1,5 @@
+import Foundation
+import JSONCodable
 
 /// File
 public class File {
@@ -35,6 +37,7 @@ public class File {
     /// Total number of chunks uploaded
     public let chunksUploaded: Int
 
+
     init(
         id: String,
         bucketId: String,
@@ -61,22 +64,6 @@ public class File {
         self.chunksUploaded = chunksUploaded
     }
 
-    public static func from(map: [String: Any]) -> File {
-        return File(
-            id: map["$id"] as! String,
-            bucketId: map["bucketId"] as! String,
-            createdAt: map["$createdAt"] as! String,
-            updatedAt: map["$updatedAt"] as! String,
-            permissions: map["$permissions"] as! [Any],
-            name: map["name"] as! String,
-            signature: map["signature"] as! String,
-            mimeType: map["mimeType"] as! String,
-            sizeOriginal: map["sizeOriginal"] as! Int,
-            chunksTotal: map["chunksTotal"] as! Int,
-            chunksUploaded: map["chunksUploaded"] as! Int
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "$id": id as Any,
@@ -92,5 +79,20 @@ public class File {
             "chunksUploaded": chunksUploaded as Any
         ]
     }
-                                                
+
+    public static func from(map: [String: Any] ) -> File {
+        return File(
+            id: map["$id"] as! String,
+            bucketId: map["bucketId"] as! String,
+            createdAt: map["$createdAt"] as! String,
+            updatedAt: map["$updatedAt"] as! String,
+            permissions: map["$permissions"] as! [Any],
+            name: map["name"] as! String,
+            signature: map["signature"] as! String,
+            mimeType: map["mimeType"] as! String,
+            sizeOriginal: map["sizeOriginal"] as! Int,
+            chunksTotal: map["chunksTotal"] as! Int,
+            chunksUploaded: map["chunksUploaded"] as! Int
+        )
+    }
 }

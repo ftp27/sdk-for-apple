@@ -1,3 +1,5 @@
+import Foundation
+import JSONCodable
 
 /// Executions List
 public class ExecutionList {
@@ -8,6 +10,7 @@ public class ExecutionList {
     /// List of executions.
     public let executions: [Execution]
 
+
     init(
         total: Int,
         executions: [Execution]
@@ -16,18 +19,17 @@ public class ExecutionList {
         self.executions = executions
     }
 
-    public static func from(map: [String: Any]) -> ExecutionList {
-        return ExecutionList(
-            total: map["total"] as! Int,
-            executions: (map["executions"] as! [[String: Any]]).map { Execution.from(map: $0) }
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "total": total as Any,
             "executions": executions.map { $0.toMap() } as Any
         ]
     }
-                                                                                                                                    
+
+    public static func from(map: [String: Any] ) -> ExecutionList {
+        return ExecutionList(
+            total: map["total"] as! Int,
+            executions: (map["executions"] as! [[String: Any]]).map { Execution.from(map: $0) }
+        )
+    }
 }

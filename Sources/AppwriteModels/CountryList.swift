@@ -1,3 +1,5 @@
+import Foundation
+import JSONCodable
 
 /// Countries List
 public class CountryList {
@@ -8,6 +10,7 @@ public class CountryList {
     /// List of countries.
     public let countries: [Country]
 
+
     init(
         total: Int,
         countries: [Country]
@@ -16,18 +19,17 @@ public class CountryList {
         self.countries = countries
     }
 
-    public static func from(map: [String: Any]) -> CountryList {
-        return CountryList(
-            total: map["total"] as! Int,
-            countries: (map["countries"] as! [[String: Any]]).map { Country.from(map: $0) }
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "total": total as Any,
             "countries": countries.map { $0.toMap() } as Any
         ]
     }
-                                                                                                                                    
+
+    public static func from(map: [String: Any] ) -> CountryList {
+        return CountryList(
+            total: map["total"] as! Int,
+            countries: (map["countries"] as! [[String: Any]]).map { Country.from(map: $0) }
+        )
+    }
 }

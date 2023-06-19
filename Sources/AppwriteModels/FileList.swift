@@ -1,3 +1,5 @@
+import Foundation
+import JSONCodable
 
 /// Files List
 public class FileList {
@@ -8,6 +10,7 @@ public class FileList {
     /// List of files.
     public let files: [File]
 
+
     init(
         total: Int,
         files: [File]
@@ -16,18 +19,17 @@ public class FileList {
         self.files = files
     }
 
-    public static func from(map: [String: Any]) -> FileList {
-        return FileList(
-            total: map["total"] as! Int,
-            files: (map["files"] as! [[String: Any]]).map { File.from(map: $0) }
-        )
-    }
-
     public func toMap() -> [String: Any] {
         return [
             "total": total as Any,
             "files": files.map { $0.toMap() } as Any
         ]
     }
-                                                                                                                                    
+
+    public static func from(map: [String: Any] ) -> FileList {
+        return FileList(
+            total: map["total"] as! Int,
+            files: (map["files"] as! [[String: Any]]).map { File.from(map: $0) }
+        )
+    }
 }
