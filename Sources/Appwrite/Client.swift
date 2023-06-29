@@ -252,7 +252,7 @@ open class Client {
         headers: [String: String] = [:],
         params: [String: Any?] = [:],
         sink: ((ByteBuffer) -> Void)? = nil,
-        converter: ((Any) -> T)? = nil
+        converter: ((Any) throws -> T)? = nil
     ) async throws -> T {
         let validParams = params.filter { $0.value != nil }
 
@@ -293,7 +293,7 @@ open class Client {
     private func execute<T>(
         _ request: HTTPClientRequest,
         withSink bufferSink: ((ByteBuffer) -> Void)? = nil,
-        converter: ((Any) -> T)? = nil
+        converter: ((Any) throws -> T)? = nil
     ) async throws -> T {
         func complete(with response: HTTPClientResponse) async throws -> T {
             switch response.status.code {
@@ -316,7 +316,7 @@ open class Client {
                     }
                     let dict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
 
-                    return converter?(dict!) ?? dict! as! T
+                    return try converter?(dict!) ?? dict! as! T
                 }
             default:
                 var message = ""

@@ -19,17 +19,17 @@ public class DocumentList<T : Codable> {
         self.documents = documents
     }
 
-    public func toMap() -> [String: Any] {
+    public func toMap() throws -> [String: Any] {
         return [
             "total": total as Any,
-            "documents": documents.map { $0.toMap() } as Any
+            "documents": try documents.map { try $0.toMap() } as Any
         ]
     }
 
-    public static func from(map: [String: Any] ) -> DocumentList {
+    public static func from(map: [String: Any] ) throws -> DocumentList {
         return DocumentList(
             total: map["total"] as! Int,
-            documents: (map["documents"] as! [[String: Any]]).map { Document.from(map: $0) }
+            documents: try (map["documents"] as! [[String: Any]]).map { try Document.from(map: $0) }
         )
     }
 }

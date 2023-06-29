@@ -37,8 +37,8 @@ open class Databases: Service {
             "content-type": "application/json"
         ]
 
-        let converter: (Any) -> AppwriteModels.DocumentList<T> = { response in
-            return AppwriteModels.DocumentList.from(map: response as! [String: Any])
+        let converter: (Any) throws -> AppwriteModels.DocumentList<T> = { response in
+            try AppwriteModels.DocumentList.from(map: response as! [String: Any])
         }
 
         return try await client.call(
@@ -113,8 +113,8 @@ open class Databases: Service {
             "content-type": "application/json"
         ]
 
-        let converter: (Any) -> AppwriteModels.Document<T> = { response in
-            return AppwriteModels.Document.from(map: response as! [String: Any])
+        let converter: (Any) throws -> AppwriteModels.Document<T> = { response in
+            try AppwriteModels.Document.from(map: response as! [String: Any])
         }
 
         return try await client.call(
@@ -192,8 +192,8 @@ open class Databases: Service {
             "content-type": "application/json"
         ]
 
-        let converter: (Any) -> AppwriteModels.Document<T> = { response in
-            return AppwriteModels.Document.from(map: response as! [String: Any])
+        let converter: (Any) throws -> AppwriteModels.Document<T> = { response in
+            try AppwriteModels.Document.from(map: response as! [String: Any])
         }
 
         return try await client.call(
@@ -269,8 +269,8 @@ open class Databases: Service {
             "content-type": "application/json"
         ]
 
-        let converter: (Any) -> AppwriteModels.Document<T> = { response in
-            return AppwriteModels.Document.from(map: response as! [String: Any])
+        let converter: (Any) throws -> AppwriteModels.Document<T> = { response in
+            try AppwriteModels.Document.from(map: response as! [String: Any])
         }
 
         return try await client.call(

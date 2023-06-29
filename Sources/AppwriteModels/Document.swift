@@ -43,7 +43,7 @@ public class Document<T : Codable> {
         self.data = data
     }
 
-    public func toMap() -> [String: Any] {
+    public func toMap() throws -> [String: Any] {
         return [
             "$id": id as Any,
             "$collectionId": collectionId as Any,
@@ -51,11 +51,11 @@ public class Document<T : Codable> {
             "$createdAt": createdAt as Any,
             "$updatedAt": updatedAt as Any,
             "$permissions": permissions as Any,
-            "data": try! JSONEncoder().encode(data)
+            "data": try JSONEncoder().encode(data)
         ]
     }
 
-    public static func from(map: [String: Any] ) -> Document {
+    public static func from(map: [String: Any] ) throws -> Document {
         return Document(
             id: map["$id"] as! String,
             collectionId: map["$collectionId"] as! String,
@@ -63,7 +63,7 @@ public class Document<T : Codable> {
             createdAt: map["$createdAt"] as! String,
             updatedAt: map["$updatedAt"] as! String,
             permissions: map["$permissions"] as! [Any],
-            data: try! JSONDecoder().decode(T.self, from: JSONSerialization.data(withJSONObject: map, options: []))
+            data: try JSONDecoder().decode(T.self, from: JSONSerialization.data(withJSONObject: map, options: []))
         )
     }
 }
